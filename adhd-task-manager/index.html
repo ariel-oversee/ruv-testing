@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#6366f1">
+    <meta name="description" content="ADHD-friendly task management app with focus features">
+    <title>Focus Task Manager</title>
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="app" class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="app-title">Focus</h1>
+                <div class="header-stats">
+                    <div class="stat-item">
+                        <span class="stat-icon">🔥</span>
+                        <span id="streak-count">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-icon">⭐</span>
+                        <span id="points-count">0</span>
+                    </div>
+                </div>
+                <button id="focus-mode-toggle" class="icon-button" title="Toggle Focus Mode">
+                    <span class="icon">🎯</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Quick Add Task -->
+            <section class="quick-add-section">
+                <div class="quick-add-container">
+                    <input
+                        type="text"
+                        id="quick-add-input"
+                        class="quick-add-input"
+                        placeholder="What needs to be done?"
+                        autocomplete="off"
+                    >
+                    <button id="quick-add-btn" class="btn btn-primary">
+                        <span>Add</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Pomodoro Timer -->
+            <section class="pomodoro-section" id="pomodoro-section">
+                <div class="pomodoro-container">
+                    <div class="timer-display">
+                        <div class="timer-circle">
+                            <svg class="timer-svg" viewBox="0 0 200 200">
+                                <circle class="timer-background" cx="100" cy="100" r="90"></circle>
+                                <circle class="timer-progress" cx="100" cy="100" r="90" id="timer-progress"></circle>
+                            </svg>
+                            <div class="timer-content">
+                                <div id="timer-display" class="timer-text">25:00</div>
+                                <div id="timer-label" class="timer-label">Focus Time</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timer-controls">
+                        <button id="timer-start" class="btn btn-timer">Start</button>
+                        <button id="timer-pause" class="btn btn-timer" style="display:none;">Pause</button>
+                        <button id="timer-reset" class="btn btn-timer-secondary">Reset</button>
+                        <button id="timer-settings" class="icon-button" title="Timer Settings">
+                            <span class="icon">⚙️</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Filter Tabs -->
+            <section class="filter-section">
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-filter="all">All</button>
+                    <button class="filter-tab" data-filter="today">Today</button>
+                    <button class="filter-tab" data-filter="active">Active</button>
+                    <button class="filter-tab" data-filter="completed">Completed</button>
+                </div>
+            </section>
+
+            <!-- Tasks List -->
+            <section class="tasks-section">
+                <div id="tasks-container" class="tasks-container">
+                    <!-- Tasks will be dynamically inserted here -->
+                </div>
+
+                <div id="empty-state" class="empty-state">
+                    <div class="empty-state-icon">✨</div>
+                    <h3>No tasks yet</h3>
+                    <p>Add your first task to get started!</p>
+                </div>
+            </section>
+
+            <!-- Progress Visualization -->
+            <section class="progress-section" id="progress-section">
+                <h2 class="section-title">Today's Progress</h2>
+                <div class="progress-stats">
+                    <div class="progress-bar-container">
+                        <div class="progress-bar">
+                            <div id="progress-bar-fill" class="progress-bar-fill" style="width: 0%"></div>
+                        </div>
+                        <div class="progress-label">
+                            <span id="completed-tasks-count">0</span> of <span id="total-tasks-count">0</span> tasks completed
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Modals -->
+        <!-- Timer Settings Modal -->
+        <div id="timer-settings-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Timer Settings</h2>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="setting-group">
+                        <label for="focus-duration">Focus Duration (minutes)</label>
+                        <input type="number" id="focus-duration" min="1" max="60" value="25">
+                    </div>
+                    <div class="setting-group">
+                        <label for="short-break-duration">Short Break (minutes)</label>
+                        <input type="number" id="short-break-duration" min="1" max="30" value="5">
+                    </div>
+                    <div class="setting-group">
+                        <label for="long-break-duration">Long Break (minutes)</label>
+                        <input type="number" id="long-break-duration" min="1" max="60" value="15">
+                    </div>
+                    <div class="setting-group">
+                        <label>
+                            <input type="checkbox" id="auto-start-breaks">
+                            Auto-start breaks
+                        </label>
+                    </div>
+                    <div class="setting-group">
+                        <label>
+                            <input type="checkbox" id="notifications-enabled" checked>
+                            Enable notifications
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="save-timer-settings" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Task Detail Modal -->
+        <div id="task-detail-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Task Details</h2>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="setting-group">
+                        <label for="task-title-edit">Task Title</label>
+                        <input type="text" id="task-title-edit" class="input-field">
+                    </div>
+                    <div class="setting-group">
+                        <label for="task-priority-edit">Priority</label>
+                        <select id="task-priority-edit" class="select-field">
+                            <option value="low">Low Priority</option>
+                            <option value="medium">Medium Priority</option>
+                            <option value="high">High Priority</option>
+                            <option value="urgent">Urgent</option>
+                        </select>
+                    </div>
+                    <div class="setting-group">
+                        <label for="task-notes-edit">Notes</label>
+                        <textarea id="task-notes-edit" class="textarea-field" rows="4"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="delete-task-btn" class="btn btn-danger">Delete</button>
+                    <button id="save-task-btn" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Achievement Toast -->
+    <div id="achievement-toast" class="achievement-toast">
+        <div class="achievement-icon">🏆</div>
+        <div class="achievement-content">
+            <div class="achievement-title"></div>
+            <div class="achievement-description"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/pomodoro.js"></script>
+    <script src="js/gamification.js"></script>
+    <script src="js/notifications.js"></script>
+
+    <!-- Register Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(reg => console.log('Service Worker registered'))
+                    .catch(err => console.log('Service Worker registration failed:', err));
+            });
+        }
+    </script>
+</body>
+</html>
