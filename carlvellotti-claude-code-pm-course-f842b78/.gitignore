@@ -1,0 +1,26 @@
+# macOS
+.DS_Store
+
+# Obsidian workspace (personal settings)
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+
+# Node modules if any
+node_modules/
+
+# Environment files
+.env
+.env.local
+.vercel
+
+# Temporary files
+*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+*.png
+!website/public/**/*.png
+
+# Release artifacts
+releases/
+*.zip
