@@ -1,0 +1,62 @@
+{
+  "name": "@ai-knowledge-nexus/scraper",
+  "version": "1.0.0",
+  "description": "Real-time web scraping and content processing system with ethical scraping practices",
+  "type": "module",
+  "main": "live-scraper.js",
+  "exports": {
+    ".": "./live-scraper.js",
+    "./scraper": "./live-scraper.js"
+  },
+  "scripts": {
+    "test": "node --test scraper.test.js",
+    "test:watch": "node --test --watch scraper.test.js",
+    "test:coverage": "node --test --experimental-test-coverage scraper.test.js",
+    "example": "node example.js",
+    "lint": "eslint *.js",
+    "format": "prettier --write '*.js'",
+    "docs": "jsdoc -c jsdoc.json"
+  },
+  "keywords": [
+    "web-scraper",
+    "content-extraction",
+    "rate-limiting",
+    "deduplication",
+    "chunking",
+    "distributed-scraping",
+    "ethical-scraping",
+    "arxiv",
+    "github",
+    "youtube",
+    "wikipedia",
+    "ai",
+    "ml",
+    "rag"
+  ],
+  "author": "AI Knowledge Nexus Team",
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^3.3.2",
+    "cheerio": "^1.0.0-rc.12",
+    "youtube-transcript": "^1.0.6",
+    "xml2js": "^0.6.2",
+    "bottleneck": "^2.19.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "eslint": "^8.55.0",
+    "prettier": "^3.1.0",
+    "jsdoc": "^4.0.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ai-knowledge-nexus/scraper.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ai-knowledge-nexus/scraper/issues"
+  },
+  "homepage": "https://github.com/ai-knowledge-nexus/scraper#readme"
+}
